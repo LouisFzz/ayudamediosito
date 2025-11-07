@@ -49,16 +49,16 @@ public class MangaServiceImpl implements MangaService {
         Tipo tipo = tipoRepository.findById(dto.getTipoId())
                 .orElseThrow(() -> new BadRequestException("Tipo no existe"));
 
-        Manga manga = Manga.builder()
-                .nombre(dto.getNombre())
-                .fechaLanzamiento(dto.getFechaLanzamiento())
-                .temporadas(dto.getTemporadas())
-                .anime(dto.getAnime())
-                .juego(dto.getJuego())
-                .pelicula(dto.getPelicula())
-                .pais(pais)
-                .tipo(tipo)
-                .build();
+        Manga manga = new Manga();
+        manga.setNombre(dto.getNombre());
+        manga.setFechaLanzamiento(dto.getFechaLanzamiento());
+        manga.setTemporadas(dto.getTemporadas());
+        manga.setAnime(dto.getAnime());
+        manga.setJuego(dto.getJuego());
+        manga.setPelicula(dto.getPelicula());
+        manga.setPais(pais);
+        manga.setTipo(tipo);
+
 
         mangaRepository.save(manga);
 
@@ -112,16 +112,16 @@ public class MangaServiceImpl implements MangaService {
     /* ----------------------------------------------------- */
 
     private MangaDto toDto(Manga manga) {
-        return MangaDto.builder()
-                .id(manga.getId())
-                .nombre(manga.getNombre())
-                .fechaLanzamiento(manga.getFechaLanzamiento())
-                .temporadas(manga.getTemporadas())
-                .anime(manga.getAnime())
-                .juego(manga.getJuego())
-                .pelicula(manga.getPelicula())
-                .pais(manga.getPais().getNombre())
-                .tipo(manga.getTipo().getNombre())
-                .build();
+        MangaDto dto = new MangaDto();
+        dto.setId(manga.getId());
+        dto.setNombre(manga.getNombre());
+        dto.setFechaLanzamiento(manga.getFechaLanzamiento());
+        dto.setTemporadas(manga.getTemporadas());
+        dto.setAnime(manga.getAnime());
+        dto.setJuego(manga.getJuego());
+        dto.setPelicula(manga.getPelicula());
+        dto.setPais(manga.getPais() != null ? manga.getPais().getNombre() : null);
+        dto.setTipo(manga.getTipo() != null ? manga.getTipo().getNombre() : null);
+        return dto;
     }
 }
